@@ -3,6 +3,7 @@ import * as cdk from 'aws-cdk-lib';
 import { ApiStack } from '../lib/api-stack';
 import { DatabaseStack } from '../lib/database-stack';
 import { AuthStack } from '../lib/auth-stack';
+import { FrontendStack } from '../lib/frontend-stack';
 
 const app = new cdk.App();
 const env = {
@@ -12,14 +13,17 @@ const env = {
 
 const databaseStack = new DatabaseStack(app, 'LibraryDatabaseStack', { env });
 
-const authStack  = new AuthStack(app,'LibraryAuthStack',{env}) ;
+const authStack = new AuthStack(app, 'LibraryAuthStack', { env });
 
 const apiStack = new ApiStack(app, 'LibraryApiStack', {
   env,
   booksTable: databaseStack.booksTable,
   readingListsTable: databaseStack.readingListsTable,
-  userPool: authStack.userPool
+  userPool: authStack.userPool,
 });
 
 apiStack.addDependency(databaseStack);
 apiStack.addDependency(authStack);
+
+// Frontend stack
+new FrontendStack(app, 'LibraryFrontendStack', { env });

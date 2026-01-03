@@ -29,7 +29,10 @@ export class ApiStack extends cdk.Stack {
       restApiName: ' Library Recommendation System API',
       description: 'This is the API for the final project of the course',
       defaultCorsPreflightOptions: {
-        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowOrigins: [
+          'http://localhost:5173',
+          'https://d1qdyapsnkgs1x.cloudfront.net',
+        ],
         allowMethods: apigateway.Cors.ALL_METHODS,
         allowHeaders: [
           'Content-Type',
